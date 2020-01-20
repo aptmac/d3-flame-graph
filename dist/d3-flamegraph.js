@@ -4876,6 +4876,7 @@ var flamegraph = function () {
   var w = 960; // graph width
   var h = null; // graph height
   var c = 18; // cell height
+  var padding = 3; // padding for the left + bottom of the text in a cell
   var selection = null; // selection
   var tooltip = true; // enable tooltip
   var title = ''; // graph title
@@ -5208,8 +5209,7 @@ var flamegraph = function () {
 
       if (!tooltip) { node.append('svg:title'); }
 
-      node.append('foreignObject')
-        .append('xhtml:div');
+      node.append('text'); // foreignObject is incompatible with IE; use SVG <text> instead
 
       // Now we have to re-select to see the new elements (why?).
       g = select(this).select('svg').selectAll('g').data(descendants, function (d) { return d.id });
@@ -5228,15 +5228,32 @@ var flamegraph = function () {
           .text(label);
       }
 
-      g.select('foreignObject')
+      g.select('text')
+        .attr('x', padding)
+        .attr('y', c - padding)
         .attr('width', width)
         .attr('height', function (d) { return c })
-        .select('div')
         .attr('class', 'd3-flame-graph-label')
+        .text(name)
+        .each(function (d) {
+          var cellWidth = width(d) - padding * 2;
+          if (cellWidth <= 0) { // if the cell is too small to be drawn
+            select(this).text('');
+          } else if (this.getComputedTextLength() >= cellWidth) { // if the text overflows the width of the cell
+            var text = select(this).text();
+            var widthPerCharacter = this.getComputedTextLength() / text.length; // calculate the approx. width per char
+            var numChar = (cellWidth / widthPerCharacter); // calculate approx. how many chars will fit onto the label
+            if (numChar >= 3) {
+              text = text.slice(0, numChar - 3) + '...';
+            } else {
+              text = '';
+            }
+            select(this).text(text);
+          }
+        })
         .style('display', function (d) { return (width(d) < 35) ? 'none' : 'block' })
         .transition()
-        .delay(transitionDuration)
-        .text(name);
+        .delay(transitionDuration);
 
       g.on('click', zoom);
 
