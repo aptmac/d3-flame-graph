@@ -1,1 +1,1 @@
-export {default as flamegraph} from './src/flamegraph'
+export {default as flamegraph} from './src/flamegraph-ie'

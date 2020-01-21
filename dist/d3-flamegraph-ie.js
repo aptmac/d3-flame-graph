@@ -4872,7 +4872,7 @@ var selection_transition = function(name) {
 selection.prototype.interrupt = selection_interrupt;
 selection.prototype.transition = selection_transition;
 
-var flamegraph = function () {
+var flamegraphIe = function () {
   var w = 960; // graph width
   var h = null; // graph height
   var c = 18; // cell height
@@ -5497,7 +5497,7 @@ var flamegraph = function () {
   return chart
 };
 
-exports.flamegraph = flamegraph;
+exports.flamegraph = flamegraphIe;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 

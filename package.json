@@ -2,7 +2,7 @@
   "name": "d3-flame-graph",
   "version": "2.0.2-IE",
   "description": "A d3.js library to produce flame graphs.",
-  "main": "dist/d3-flamegraph.js",
+  "main": "dist/d3-flamegraph-ie.js",
   "directories": {
     "example": "example"
   },
@@ -10,7 +10,7 @@
     "pretest": "gulp build",
     "test": "tape 'test/**/*-test.js'",
     "prepare": "npm run test",
-    "postpublish": "zip -j dist/d3-flamegraph.zip -- LICENSE README.md dist/d3-flamegraph.js dist/d3-flamegraph.min.js dist/d3-flamegraph.css"
+    "postpublish": "zip -j dist/d3-flamegraph-ie.zip -- LICENSE README.md dist/d3-flamegraph-ie.js dist/d3-flamegraph-ie.min.js dist/d3-flamegraph-ie.css"
   },
   "repository": {
     "type": "git",
